@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>6-Week Cut Plan</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Georgia, 'Times New Roman', serif; background:#0a0a0f; min-height:100vh; color:#e8e0d5; }
+  .header { background:linear-gradient(135deg,#0f0f1a 0%,#1a0f2e 50%,#0f1a1a 100%); border-bottom:1px solid #2a2a3a; padding:2rem 1.5rem 1.5rem; position:relative; overflow:hidden; }
+  .header::before { content:""; position:absolute; inset:0; background-image:radial-gradient(ellipse at 20% 50%, rgba(120,60,200,.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(60,160,120,.06) 0%, transparent 60%); pointer-events:none; }
+  .inner { position:relative; max-width:900px; margin:0 auto; }
+  .eyebrow { font-size:.65rem; letter-spacing:.2em; color:#8b7fa0; text-transform:uppercase; margin-bottom:.4rem; }
+  h1 { font-size:1.6rem; font-weight:400; color:#f0e8ff; margin:.2rem 0 .3rem; line-height:1.2; }
+  .sub { font-size:.8rem; color:#8b9da0; margin-bottom:1.2rem; }
+  .calories { display:flex; gap:.5rem; flex-wrap:wrap; }
+  .cal-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:.4rem .7rem; font-size:.72rem; }
+  .muted-purple { color:#c4b8d4; } .bright { color:#f0e8ff; font-weight:600; } .tiny { color:#6a7a80; font-size:.65rem; }
+  .tabs-wrap { padding:1rem 1.5rem 0; border-bottom:1px solid #1a1a2a; }
+  .tabs { display:flex; gap:.4rem; overflow-x:auto; padding-bottom:1rem; max-width:900px; margin:0 auto; }
+  button { font-family:inherit; }
+  .tab { flex-shrink:0; padding:.5rem .9rem; border-radius:8px; border:1px solid #2a2a3a; background:transparent; color:#6a6a7a; font-size:.75rem; cursor:pointer; transition:all .2s; text-align:left; }
+  .tab.active { border-color:#8b6dcc; background:rgba(139,109,204,.15); color:#d4c8f0; }
+  .tab-sub { font-size:.65rem; opacity:.8; }
+  .week-head { padding:1.2rem 1.5rem; max-width:900px; margin:0 auto; }
+  h2 { font-size:1.1rem; color:#d4c8f0; font-weight:400; margin:0 0 .3rem; }
+  h2 em { color:#b0a0cc; }
+  .theme { font-size:.8rem; color:#8a9a98; margin:0 0 .6rem; }
+  .pill { display:inline-flex; align-items:center; gap:.4rem; background:rgba(60,200,120,.08); border:1px solid rgba(60,200,120,.2); border-radius:6px; padding:.35rem .7rem; font-size:.72rem; color:#80d4a0; }
+  .notice { margin-top:.7rem; border-radius:8px; padding:.7rem 1rem; font-size:.78rem; }
+  .period { background:rgba(200,80,80,.08); border:1px solid rgba(200,80,80,.25); color:#e0a0a0; }
+  .extension { background:rgba(80,140,200,.08); border:1px solid rgba(80,140,200,.25); color:#a0c0e0; }
+  .days { padding:0 1.5rem 2rem; display:flex; flex-direction:column; gap:.6rem; max-width:900px; margin:0 auto; }
+  .day-card { border:1px solid #1e1e2a; border-radius:10px; background:rgba(255,255,255,.015); overflow:hidden; transition:all .2s; }
+  .day-card.open { background:rgba(255,255,255,.03); }
+  .day-btn { width:100%; padding:.85rem 1rem; display:flex; align-items:center; justify-content:space-between; background:transparent; border:none; cursor:pointer; text-align:left; }
+  .day-left { display:flex; align-items:center; gap:.7rem; }
+  .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .day-name { font-size:.85rem; color:#d4cce0; font-weight:600; }
+  .focus { font-size:.7rem; color:#6a7a80; }
+  .right { display:flex; align-items:center; gap:.8rem; }
+  .kcal { font-size:.8rem; color:#c0b8d4; font-weight:600; text-align:right; }
+  .deficit { font-size:.65rem; color:#5a6a60; text-align:right; }
+  .arrow { color:#4a4a5a; font-size:.8rem; }
+  .details { border-top:1px solid #1e1e2a; padding:.8rem 1rem; }
+  .note { display:inline-block; background:rgba(255,255,255,.04); border-radius:5px; padding:.25rem .6rem; font-size:.7rem; color:#9a8aaa; margin-bottom:.8rem; }
+  .ex-list { display:flex; flex-direction:column; gap:.35rem; }
+  .exercise { display:flex; justify-content:space-between; align-items:center; padding:.4rem .6rem; border-radius:5px; font-size:.78rem; gap:.8rem; }
+  .exercise:nth-child(odd) { background:rgba(255,255,255,.02); }
+  .ex-name { color:#c8c0d8; }
+  .ex-meta { display:flex; gap:.6rem; flex-shrink:0; }
+  .sets { color:#7a90a0; }
+  .weight { color:#a0b8c0; font-variant-numeric:tabular-nums; min-width:40px; text-align:right; }
+  .footer { margin:0 auto 2rem; max-width:calc(900px - 3rem); background:rgba(139,109,204,.06); border:1px solid rgba(139,109,204,.15); border-radius:10px; padding:1rem; font-size:.75rem; color:#8a8a9a; line-height:1.7; }
+  .footer-title { color:#b0a4c8; font-weight:600; margin-bottom:.4rem; font-size:.8rem; }
+  @media (max-width:600px) { .right { gap:.4rem; } .focus { max-width:170px; } .day-btn { padding:.8rem .75rem; } .exercise { align-items:flex-start; } }
+</style>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="6-Week Plan">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body>
+<div id="app"></div>
+<script>
+const weeks = [
+  {
+    label: "Week 1",
+    subtitle: "Re-entry — rebuild the groove",
+    theme: "Ease back in. Weights slightly below max. Relearn movement patterns. Creatine loading begins.",
+    creatine: "Start creatine: 3–5g daily with water (any time)",
+    days: [
+      {
+        day: "Sunday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Back · Hamstrings · Glutes · Rear Delts · Biceps",
+        calories: 1250,
+        deficit: "~500 kcal",
+        notes: "REST DAY — lighter TDEE",
+        exercises: [
+          { name: "Kelso Shrugs", sets: "3×15", weight: "10kg" },
+          { name: "Lat Pulldown", sets: "3×10–12", weight: "27–30kg" },
+          { name: "T-Row", sets: "2×10", weight: "10kg" },
+          { name: "Seated Leg Curl", sets: "3×15", weight: "35–40kg" },
+          { name: "RDLs", sets: "4×6", weight: "10kg" },
+          { name: "Hip Thrust", sets: "2×10", weight: "15kg" },
+          { name: "Back Extension", sets: "2×12", weight: "BW" },
+          { name: "Face Pulls", sets: "2×15", weight: "18–20kg" },
+          { name: "Barbell Bicep Curl", sets: "3×12", weight: "10kg" },
+          { name: "Forearms", sets: "optional", weight: "—" },
+        ],
+      },
+      {
+        day: "Monday",
+        type: "anterior",
+        tag: "🟠 Anterior",
+        focus: "Chest · Quads · Shoulders · Triceps · Core",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Pec Fly Machine", sets: "2×15", weight: "12–15kg" },
+          { name: "Low-to-High Cable Fly", sets: "3×10", weight: "8–10kg" },
+          { name: "Machine Shoulder Press", sets: "2×10", weight: "13–15kg" },
+          { name: "Lateral Raise", sets: "2×10", weight: "5kg" },
+          { name: "Leg Extension", sets: "2×15", weight: "37–40kg" },
+          { name: "Hip Adduction", sets: "3×15", weight: "—" },
+          { name: "Overhead Tricep Ext.", sets: "3×8", weight: "10kg" },
+          { name: "Forearm Pulldown", sets: "3×10", weight: "—" },
+        ],
+      },
+      {
+        day: "Tuesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio + Dance Game / Walk",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Dance game (Xbox)", sets: "30–45 min", weight: "—" },
+          { name: "Walk / light steps", sets: "aim 8–10k", weight: "—" },
+          { name: "Stretching / mobility", sets: "10–15 min", weight: "—" },
+        ],
+      },
+      {
+        day: "Wednesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio + active recovery",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Incline walk or bike", sets: "25–30 min", weight: "—" },
+          { name: "Foam roll / mobility", sets: "10 min", weight: "—" },
+        ],
+      },
+      {
+        day: "Thursday",
+        type: "fullbody",
+        tag: "🟣 Full Body",
+        focus: "Compound movements · Core",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Goblet Squat", sets: "2×10", weight: "7.5kg" },
+          { name: "Hip Abduction", sets: "2×15", weight: "machine" },
+          { name: "Lat Pulldown", sets: "2×12", weight: "27kg" },
+          { name: "Pec Fly", sets: "2×12", weight: "15kg" },
+          { name: "T-Row (double)", sets: "2×10", weight: "10kg" },
+          { name: "Bicep Curl", sets: "2×12", weight: "10kg" },
+          { name: "Tricep Extension", sets: "2×12", weight: "10kg" },
+          { name: "Dead Bug", sets: "3×8", weight: "BW" },
+          { name: "Flutter Kicks", sets: "2×20", weight: "BW" },
+          { name: "Plank", sets: "2×30s", weight: "BW" },
+          { name: "Farmer's Carry", sets: "2×20m", weight: "10–12kg" },
+        ],
+      },
+      {
+        day: "Friday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Back · Hamstrings · Glutes",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Seated Leg Curl", sets: "3×12", weight: "40kg" },
+          { name: "RDLs", sets: "4×8", weight: "10kg" },
+          { name: "Hip Thrust", sets: "3×10", weight: "15kg" },
+          { name: "Lat Pulldown", sets: "3×10", weight: "28–30kg" },
+          { name: "T-Row", sets: "2×10", weight: "12kg" },
+          { name: "Face Pulls", sets: "2×15", weight: "20kg" },
+          { name: "Barbell Bicep Curl", sets: "3×12", weight: "10kg" },
+        ],
+      },
+      {
+        day: "Saturday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio / Dance / Walk",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Dance game or walk", sets: "30–45 min", weight: "—" },
+          { name: "Light mobility work", sets: "10 min", weight: "—" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Week 2",
+    subtitle: "Building load — add weight or reps",
+    theme: "Increase weights slightly where Week 1 felt easy. Hold same form standards.",
+    creatine: "Continue 3–5g daily",
+    days: [
+      {
+        day: "Sunday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Back · Hamstrings · Glutes · Rear Delts · Biceps",
+        calories: 1250,
+        deficit: "~500 kcal",
+        notes: "REST DAY",
+        exercises: [
+          { name: "Kelso Shrugs", sets: "3×15", weight: "10–12kg" },
+          { name: "Lat Pulldown", sets: "3×10", weight: "30kg" },
+          { name: "T-Row", sets: "2×10", weight: "12–15kg" },
+          { name: "Seated Leg Curl", sets: "3×12", weight: "40–45kg" },
+          { name: "RDLs", sets: "4×8", weight: "12kg" },
+          { name: "Hip Thrust", sets: "3×10", weight: "15–20kg" },
+          { name: "Back Extension", sets: "2×12", weight: "BW" },
+          { name: "Face Pulls", sets: "2×15", weight: "20kg" },
+          { name: "Barbell Bicep Curl", sets: "3×12", weight: "10–12kg" },
+        ],
+      },
+      {
+        day: "Monday",
+        type: "anterior",
+        tag: "🟠 Anterior",
+        focus: "Chest · Quads · Shoulders · Triceps",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Pec Fly Machine", sets: "3×12", weight: "15–17kg" },
+          { name: "Low-to-High Cable Fly", sets: "3×10", weight: "10kg" },
+          { name: "Machine Shoulder Press", sets: "3×10", weight: "15kg" },
+          { name: "Lateral Raise", sets: "3×10", weight: "5–6kg" },
+          { name: "Leg Extension", sets: "3×12", weight: "40–45kg" },
+          { name: "Hip Adduction", sets: "3×15", weight: "—" },
+          { name: "Overhead Tricep Ext.", sets: "3×10", weight: "10–12kg" },
+        ],
+      },
+      {
+        day: "Tuesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio + Dance",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Dance game (Xbox)", sets: "35–45 min", weight: "—" },
+          { name: "Walk", sets: "8–10k steps", weight: "—" },
+        ],
+      },
+      {
+        day: "Wednesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio recovery",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Incline walk or cycle", sets: "30 min", weight: "—" },
+          { name: "Stretching", sets: "10 min", weight: "—" },
+        ],
+      },
+      {
+        day: "Thursday",
+        type: "fullbody",
+        tag: "🟣 Full Body",
+        focus: "Compound + Core",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Goblet Squat", sets: "3×10", weight: "10kg" },
+          { name: "Hip Abduction", sets: "3×15", weight: "machine" },
+          { name: "Lat Pulldown", sets: "2×12", weight: "30kg" },
+          { name: "Pec Fly", sets: "2×12", weight: "17kg" },
+          { name: "T-Row", sets: "2×10", weight: "12kg" },
+          { name: "Bicep Curl", sets: "3×12", weight: "10–12kg" },
+          { name: "Tricep Extension", sets: "3×12", weight: "12kg" },
+          { name: "Dead Bug", sets: "3×10", weight: "BW" },
+          { name: "Plank", sets: "3×35s", weight: "BW" },
+          { name: "Farmer's Carry", sets: "3×20m", weight: "12kg" },
+        ],
+      },
+      {
+        day: "Friday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Back · Hamstrings · Glutes",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Seated Leg Curl", sets: "3×12", weight: "45kg" },
+          { name: "RDLs", sets: "4×8", weight: "12kg" },
+          { name: "Hip Thrust", sets: "3×10", weight: "20kg" },
+          { name: "Lat Pulldown", sets: "3×10", weight: "30kg" },
+          { name: "T-Row", sets: "2×10", weight: "15kg" },
+          { name: "Face Pulls", sets: "3×12", weight: "20kg" },
+          { name: "Barbell Bicep Curl", sets: "3×12", weight: "12kg" },
+        ],
+      },
+      {
+        day: "Saturday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio / Dance",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Dance game or walk", sets: "40 min", weight: "—" },
+          { name: "Mobility", sets: "10 min", weight: "—" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Week 3",
+    subtitle: "Push week — near-max effort",
+    theme: "Match or slightly exceed your pre-break weights. This is where real muscle work resumes.",
+    creatine: "Continue 3–5g daily. Scale weight should stabilise after initial water bump.",
+    days: [
+      {
+        day: "Sunday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Back · Hamstrings · Glutes",
+        calories: 1250,
+        deficit: "~500 kcal",
+        notes: "REST DAY",
+        exercises: [
+          { name: "Kelso Shrugs", sets: "3×15", weight: "12kg" },
+          { name: "Lat Pulldown", sets: "3×10", weight: "30–32kg" },
+          { name: "T-Row", sets: "3×10", weight: "15kg" },
+          { name: "Seated Leg Curl", sets: "3×12", weight: "45–50kg" },
+          { name: "RDLs", sets: "4×8", weight: "15kg" },
+          { name: "Hip Thrust", sets: "3×10", weight: "20–25kg" },
+          { name: "Back Extension", sets: "2×15", weight: "BW" },
+          { name: "Face Pulls", sets: "3×12", weight: "20kg" },
+          { name: "Barbell Bicep Curl", sets: "3×12", weight: "12kg" },
+        ],
+      },
+      {
+        day: "Monday",
+        type: "anterior",
+        tag: "🟠 Anterior",
+        focus: "Chest · Quads · Shoulders · Triceps",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Pec Fly Machine", sets: "3×12", weight: "17–20kg" },
+          { name: "Low-to-High Cable Fly", sets: "3×10", weight: "10–12kg" },
+          { name: "Machine Shoulder Press", sets: "3×10", weight: "15–17kg" },
+          { name: "Lateral Raise", sets: "3×10", weight: "6kg" },
+          { name: "Leg Extension", sets: "3×12", weight: "45–50kg" },
+          { name: "Hip Adduction", sets: "3×15", weight: "—" },
+          { name: "Overhead Tricep Ext.", sets: "3×10", weight: "12kg" },
+        ],
+      },
+      {
+        day: "Tuesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio + Dance",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Dance game (Xbox)", sets: "45 min", weight: "—" },
+          { name: "Walk", sets: "10k steps", weight: "—" },
+        ],
+      },
+      {
+        day: "Wednesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio recovery",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Incline walk or cycle", sets: "30–35 min", weight: "—" },
+          { name: "Foam roll + stretch", sets: "15 min", weight: "—" },
+        ],
+      },
+      {
+        day: "Thursday",
+        type: "fullbody",
+        tag: "🟣 Full Body",
+        focus: "Compound + Core",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Goblet Squat", sets: "3×12", weight: "10kg" },
+          { name: "Hip Abduction", sets: "3×15", weight: "machine" },
+          { name: "Lat Pulldown", sets: "3×12", weight: "30kg" },
+          { name: "Pec Fly", sets: "3×12", weight: "18–20kg" },
+          { name: "T-Row", sets: "3×10", weight: "15kg" },
+          { name: "Bicep Curl", sets: "3×12", weight: "12kg" },
+          { name: "Tricep Extension", sets: "3×12", weight: "12kg" },
+          { name: "Dead Bug", sets: "3×10", weight: "BW" },
+          { name: "Plank", sets: "3×40s", weight: "BW" },
+          { name: "Farmer's Carry", sets: "3×25m", weight: "12–14kg" },
+        ],
+      },
+      {
+        day: "Friday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Back · Hamstrings · Glutes",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Seated Leg Curl", sets: "3×12", weight: "50kg" },
+          { name: "RDLs", sets: "4×8", weight: "15kg" },
+          { name: "Hip Thrust", sets: "3×10", weight: "22–25kg" },
+          { name: "Lat Pulldown", sets: "3×10", weight: "30kg" },
+          { name: "T-Row", sets: "3×10", weight: "15kg" },
+          { name: "Face Pulls", sets: "3×12", weight: "20kg" },
+          { name: "Barbell Bicep Curl", sets: "3×12", weight: "12kg" },
+        ],
+      },
+      {
+        day: "Saturday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio / Dance",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Dance game or walk", sets: "45 min", weight: "—" },
+          { name: "Mobility + stretching", sets: "15 min", weight: "—" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Week 4",
+    subtitle: "⚠️ Period week protocol",
+    theme: "Reduce volume & intensity by ~20–30%. Keep moving, keep eating well. Don't bail — just adapt.",
+    creatine: "Continue creatine. May notice slight bloat — normal, keep going.",
+    periodNote: true,
+    days: [
+      {
+        day: "Sunday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Lighter posterior — keep it moving",
+        calories: 1350,
+        deficit: "Slight increase — hormones need fuel",
+        notes: "REST DAY — slight calorie increase allowed",
+        exercises: [
+          { name: "Lat Pulldown", sets: "2×12", weight: "25–27kg" },
+          { name: "Seated Leg Curl", sets: "2×12", weight: "40kg" },
+          { name: "Hip Thrust", sets: "2×10", weight: "15kg" },
+          { name: "Face Pulls", sets: "2×15", weight: "18kg" },
+          { name: "Barbell Bicep Curl", sets: "2×12", weight: "10kg" },
+        ],
+      },
+      {
+        day: "Monday",
+        type: "anterior",
+        tag: "🟠 Anterior",
+        focus: "Light anterior — no maxing out",
+        calories: 1550,
+        deficit: "Slight calorie increase ok",
+        notes: "Reduced intensity",
+        exercises: [
+          { name: "Pec Fly Machine", sets: "2×12", weight: "15kg" },
+          { name: "Machine Shoulder Press", sets: "2×10", weight: "13kg" },
+          { name: "Leg Extension", sets: "2×12", weight: "40kg" },
+          { name: "Overhead Tricep Ext.", sets: "2×10", weight: "10kg" },
+        ],
+      },
+      {
+        day: "Tuesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Walk or light dance",
+        calories: 1400,
+        deficit: "Slight increase ok",
+        notes: "Go gentle",
+        exercises: [
+          { name: "Walk or gentle dance", sets: "30 min", weight: "—" },
+          { name: "Stretching / yoga", sets: "15 min", weight: "—" },
+        ],
+      },
+      {
+        day: "Wednesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Rest or walk",
+        calories: 1400,
+        deficit: "—",
+        notes: "Extra rest if needed",
+        exercises: [
+          { name: "Gentle walk", sets: "20–30 min", weight: "—" },
+          { name: "Or full rest", sets: "—", weight: "—" },
+        ],
+      },
+      {
+        day: "Thursday",
+        type: "fullbody",
+        tag: "🟣 Full Body",
+        focus: "Light full body — no heavy core",
+        calories: 1550,
+        deficit: "Slight increase ok",
+        notes: "Skip intense core work",
+        exercises: [
+          { name: "Goblet Squat", sets: "2×10", weight: "7.5kg" },
+          { name: "Lat Pulldown", sets: "2×12", weight: "27kg" },
+          { name: "Pec Fly", sets: "2×12", weight: "15kg" },
+          { name: "Bicep Curl", sets: "2×12", weight: "10kg" },
+          { name: "Farmer's Carry", sets: "2×20m", weight: "10kg" },
+        ],
+      },
+      {
+        day: "Friday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Lighter posterior",
+        calories: 1550,
+        deficit: "Slight increase ok",
+        notes: "Reduced volume",
+        exercises: [
+          { name: "Seated Leg Curl", sets: "2×12", weight: "40kg" },
+          { name: "RDLs", sets: "3×8", weight: "12kg" },
+          { name: "Hip Thrust", sets: "2×10", weight: "15–20kg" },
+          { name: "Face Pulls", sets: "2×15", weight: "18kg" },
+        ],
+      },
+      {
+        day: "Saturday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Light walk / rest",
+        calories: 1400,
+        deficit: "—",
+        notes: "Listen to your body",
+        exercises: [
+          { name: "Walk or rest", sets: "20–30 min", weight: "—" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Week 5",
+    subtitle: "Peak week — strongest week",
+    theme: "Post-period energy surge. Push heavier this week. Best week to beat PRs.",
+    creatine: "Continue 3–5g daily",
+    days: [
+      {
+        day: "Sunday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Back · Hamstrings · Glutes",
+        calories: 1250,
+        deficit: "~500 kcal",
+        notes: "REST DAY",
+        exercises: [
+          { name: "Kelso Shrugs", sets: "3×15", weight: "12–15kg" },
+          { name: "Lat Pulldown", sets: "3×10", weight: "30–32kg" },
+          { name: "T-Row", sets: "3×10", weight: "15–17kg" },
+          { name: "Seated Leg Curl", sets: "3×12", weight: "50kg" },
+          { name: "RDLs", sets: "4×8", weight: "15–17kg" },
+          { name: "Hip Thrust", sets: "3×10", weight: "25kg" },
+          { name: "Back Extension", sets: "2×15", weight: "BW" },
+          { name: "Face Pulls", sets: "3×12", weight: "20kg" },
+          { name: "Barbell Bicep Curl", sets: "3×12", weight: "12–14kg" },
+        ],
+      },
+      {
+        day: "Monday",
+        type: "anterior",
+        tag: "🟠 Anterior",
+        focus: "Chest · Quads · Shoulders · Triceps",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Pec Fly Machine", sets: "3×12", weight: "20kg" },
+          { name: "Low-to-High Cable Fly", sets: "3×10", weight: "12kg" },
+          { name: "Machine Shoulder Press", sets: "3×10", weight: "17–18kg" },
+          { name: "Lateral Raise", sets: "3×10", weight: "6–7kg" },
+          { name: "Leg Extension", sets: "3×12", weight: "50kg" },
+          { name: "Hip Adduction", sets: "3×15", weight: "—" },
+          { name: "Overhead Tricep Ext.", sets: "3×10", weight: "12–14kg" },
+        ],
+      },
+      {
+        day: "Tuesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio + Dance",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Dance game (Xbox)", sets: "45–50 min", weight: "—" },
+          { name: "Walk", sets: "10k+ steps", weight: "—" },
+        ],
+      },
+      {
+        day: "Wednesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio recovery",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Incline walk or cycle", sets: "35 min", weight: "—" },
+          { name: "Foam roll + stretch", sets: "15 min", weight: "—" },
+        ],
+      },
+      {
+        day: "Thursday",
+        type: "fullbody",
+        tag: "🟣 Full Body",
+        focus: "Compound + Core",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Goblet Squat", sets: "3×12", weight: "12kg" },
+          { name: "Hip Abduction", sets: "3×15", weight: "machine" },
+          { name: "Lat Pulldown", sets: "3×12", weight: "30–32kg" },
+          { name: "Pec Fly", sets: "3×12", weight: "20kg" },
+          { name: "T-Row", sets: "3×10", weight: "15–17kg" },
+          { name: "Bicep Curl", sets: "3×12", weight: "12–14kg" },
+          { name: "Tricep Extension", sets: "3×12", weight: "14kg" },
+          { name: "Dead Bug", sets: "3×12", weight: "BW" },
+          { name: "Plank", sets: "3×45s", weight: "BW" },
+          { name: "Farmer's Carry", sets: "3×30m", weight: "14kg" },
+        ],
+      },
+      {
+        day: "Friday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Back · Hamstrings · Glutes",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Seated Leg Curl", sets: "3×12", weight: "50kg" },
+          { name: "RDLs", sets: "4×8", weight: "17kg" },
+          { name: "Hip Thrust", sets: "3×10", weight: "25kg" },
+          { name: "Lat Pulldown", sets: "3×10", weight: "30–32kg" },
+          { name: "T-Row", sets: "3×10", weight: "15–17kg" },
+          { name: "Face Pulls", sets: "3×12", weight: "20–22kg" },
+          { name: "Barbell Bicep Curl", sets: "3×12", weight: "12–14kg" },
+        ],
+      },
+      {
+        day: "Saturday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio / Dance",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Dance game or walk", sets: "45–50 min", weight: "—" },
+          { name: "Mobility", sets: "15 min", weight: "—" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Week 6",
+    subtitle: "End of June — assess & extend",
+    theme: "Final push. Do InBody scan. Decide whether to cut deeper in July or shift to maintenance.",
+    creatine: "Continue. Book InBody scan this week if possible.",
+    extensionNote: true,
+    days: [
+      {
+        day: "Sunday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Back · Hamstrings · Glutes",
+        calories: 1250,
+        deficit: "~500 kcal",
+        notes: "REST DAY",
+        exercises: [
+          { name: "Kelso Shrugs", sets: "3×15", weight: "15kg" },
+          { name: "Lat Pulldown", sets: "3×10", weight: "30–32kg" },
+          { name: "T-Row", sets: "3×10", weight: "15–17kg" },
+          { name: "Seated Leg Curl", sets: "3×12", weight: "50kg" },
+          { name: "RDLs", sets: "4×8", weight: "17kg" },
+          { name: "Hip Thrust", sets: "3×10", weight: "25–30kg" },
+          { name: "Back Extension", sets: "2×15", weight: "BW" },
+          { name: "Face Pulls", sets: "3×12", weight: "20–22kg" },
+          { name: "Barbell Bicep Curl", sets: "3×12", weight: "14kg" },
+        ],
+      },
+      {
+        day: "Monday",
+        type: "anterior",
+        tag: "🟠 Anterior",
+        focus: "Chest · Quads · Shoulders · Triceps",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Pec Fly Machine", sets: "3×12", weight: "20kg" },
+          { name: "Low-to-High Cable Fly", sets: "3×10", weight: "12kg" },
+          { name: "Machine Shoulder Press", sets: "3×10", weight: "17–18kg" },
+          { name: "Lateral Raise", sets: "3×12", weight: "7kg" },
+          { name: "Leg Extension", sets: "3×12", weight: "50kg" },
+          { name: "Hip Adduction", sets: "3×15", weight: "—" },
+          { name: "Overhead Tricep Ext.", sets: "3×10", weight: "14kg" },
+        ],
+      },
+      {
+        day: "Tuesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio + Dance",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Dance game (Xbox)", sets: "45–50 min", weight: "—" },
+          { name: "Walk", sets: "10k+ steps", weight: "—" },
+        ],
+      },
+      {
+        day: "Wednesday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio recovery",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Incline walk or cycle", sets: "35 min", weight: "—" },
+          { name: "Stretch + foam roll", sets: "15 min", weight: "—" },
+        ],
+      },
+      {
+        day: "Thursday",
+        type: "fullbody",
+        tag: "🟣 Full Body",
+        focus: "Compound + Core",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Goblet Squat", sets: "3×12", weight: "12–15kg" },
+          { name: "Hip Abduction", sets: "3×15", weight: "machine" },
+          { name: "Lat Pulldown", sets: "3×12", weight: "32kg" },
+          { name: "Pec Fly", sets: "3×12", weight: "20kg" },
+          { name: "T-Row", sets: "3×10", weight: "17kg" },
+          { name: "Bicep Curl", sets: "3×12", weight: "14kg" },
+          { name: "Tricep Extension", sets: "3×12", weight: "14kg" },
+          { name: "Dead Bug", sets: "3×12", weight: "BW" },
+          { name: "Plank", sets: "3×50s", weight: "BW" },
+          { name: "Farmer's Carry", sets: "3×30m", weight: "14–16kg" },
+        ],
+      },
+      {
+        day: "Friday",
+        type: "posterior",
+        tag: "🔵 Posterior",
+        focus: "Back · Hamstrings · Glutes",
+        calories: 1500,
+        deficit: "~550 kcal",
+        notes: "Training day",
+        exercises: [
+          { name: "Seated Leg Curl", sets: "3×12", weight: "50kg" },
+          { name: "RDLs", sets: "4×8", weight: "17–20kg" },
+          { name: "Hip Thrust", sets: "3×10", weight: "27–30kg" },
+          { name: "Lat Pulldown", sets: "3×10", weight: "32kg" },
+          { name: "T-Row", sets: "3×10", weight: "17kg" },
+          { name: "Face Pulls", sets: "3×12", weight: "22kg" },
+          { name: "Barbell Bicep Curl", sets: "3×12", weight: "14kg" },
+        ],
+      },
+      {
+        day: "Saturday",
+        type: "cardio",
+        tag: "🟢 Active",
+        focus: "Cardio / Dance",
+        calories: 1350,
+        deficit: "~600 kcal",
+        notes: "Cardio/active day",
+        exercises: [
+          { name: "Dance game or walk", sets: "45–50 min", weight: "—" },
+          { name: "Mobility", sets: "15 min", weight: "—" },
+        ],
+      },
+    ],
+  },
+];
+const calorieTargets = [
+  { label: "Training days", cal: "1,500", note: "Mon / Tue / Thu / Fri" },
+  { label: "Active/cardio days", cal: "1,350", note: "Wed / Sat" },
+  { label: "Rest day", cal: "1,250", note: "Sun" },
+  { label: "Period week", cal: "+100–200", note: "All days" },
+];
+let activeWeek = 0;
+let expandedDay = null;
+const colorMap = { posterior:'#5577cc', anterior:'#cc9944', cardio:'#44aa66', fullbody:'#8855cc' };
+const borderMap = { posterior:'#3355aa', anterior:'#aa8833', cardio:'#336644', fullbody:'#553388' };
+function esc(value) {
+  return String(value ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+function setWeek(i) { activeWeek = i; expandedDay = null; render(); }
+function toggleDay(i) { expandedDay = expandedDay === i ? null : i; render(); }
+function shortSubtitle(s) { return String(s).split('—')[0].trim(); }
+function render() {
+  const week = weeks[activeWeek];
+  document.getElementById('app').innerHTML = `
+    <div class="header"><div class="inner">
+      <div class="eyebrow">6-WEEK CUT PLAN · JUN – JUL 2026</div>
+      <h1>Your Training &amp; Nutrition Plan</h1>
+      <p class="sub">71kg → target 68–69kg · 6 days/week · Creatine included</p>
+      <div class="calories">${calorieTargets.map(t => `<div class="cal-card"><span class="muted-purple">${esc(t.label)}: </span><span class="bright">${esc(t.cal)} kcal</span><div class="tiny">${esc(t.note)}</div></div>`).join('')}</div>
+    </div></div>
+    <div class="tabs-wrap"><div class="tabs">${weeks.map((w,i)=>`<button class="tab ${activeWeek===i?'active':''}" onclick="setWeek(${i})"><div style="font-weight:600">${esc(w.label)}</div><div class="tab-sub">${esc(shortSubtitle(w.subtitle))}</div></button>`).join('')}</div></div>
+    <div class="week-head">
+      <h2>${esc(week.label)}: <em>${esc(week.subtitle)}</em></h2>
+      <p class="theme">${esc(week.theme)}</p>
+      <div class="pill"><span>💊</span> ${esc(week.creatine)}</div>
+      ${week.periodNote ? `<div class="notice period"><strong>🩸 Period Week Protocol:</strong> Reduce all weights by 20–30%. Prioritise sleep, hydration, and iron-rich foods. Skip intense core work on heavy days. Add ~100–200 kcal across the week — your body needs it. Don't skip gym entirely, but don't push through pain either.</div>` : ''}
+      ${week.extensionNote ? `<div class="notice extension"><strong>📊 End of Week 6 — InBody Assessment:</strong> Book a scan. If you're at 68–69kg with lower fat %, consider a 2-week July maintenance phase then a second cut. If still at 70–71kg, extend the cut for 2–4 more weeks at the same calorie targets. Either way — you've rebuilt your base.</div>` : ''}
+    </div>
+    <div class="days">${week.days.map((day,di)=>{
+      const open = expandedDay === di;
+      return `<div class="day-card ${open?'open':''}" style="border-color:${open ? borderMap[day.type] : '#1e1e2a'}">
+        <button class="day-btn" onclick="toggleDay(${di})">
+          <div class="day-left"><div class="dot" style="background:${colorMap[day.type]}"></div><div><div class="day-name">${esc(day.day)}</div><div class="focus">${esc(day.tag)} · ${esc(day.focus)}</div></div></div>
+          <div class="right"><div><div class="kcal">${esc(day.calories)} kcal</div><div class="deficit">${esc(day.deficit)}</div></div><span class="arrow">${open?'▲':'▼'}</span></div>
+        </button>
+        ${open ? `<div class="details"><div class="note">${esc(day.notes)}</div><div class="ex-list">${day.exercises.map(ex=>`<div class="exercise"><span class="ex-name">${esc(ex.name)}</span><div class="ex-meta"><span class="sets">${esc(ex.sets)}</span><span class="weight">${esc(ex.weight)}</span></div></div>`).join('')}</div></div>` : ''}
+      </div>`;
+    }).join('')}</div>
+    <div class="footer"><div class="footer-title">📋 Quick Reference</div>
+      <div>• <strong class="muted-purple">Creatine:</strong> 3–5g daily, any time, with water</div>
+      <div>• <strong class="muted-purple">Scale bump week 1:</strong> Normal — creatine water retention (~0.5–1kg), not fat</div>
+      <div>• <strong class="muted-purple">Weekly deficit:</strong> ~3,850 kcal → expect 0.5–0.8kg/week fat loss</div>
+      <div>• <strong class="muted-purple">Protein:</strong> Aim 100–120g/day to protect muscle on the cut</div>
+      <div>• <strong class="muted-purple">Projected end:</strong> 68–69kg by end of June with improved body comp</div>
+      <div>• <strong class="muted-purple">July extension:</strong> Reassess at Week 6 InBody scan</div>
+    </div>`;
+}
+render();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(console.error);
+  });
+}
+</script>
+</body>
+</html>
